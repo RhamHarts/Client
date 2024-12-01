@@ -1,0 +1,289 @@
+.followBtnText {
+  position: relative;
+  font-size: 20px;
+  font-family: Inter;
+  color: #f2f2f2;
+  text-align: left;
+  text-shadow: 1px 0 0 rgba(242, 242, 242, 0.5),
+    0 1px 0 rgba(242, 242, 242, 0.5), -1px 0 0 rgba(242, 242, 242, 0.5),
+    0-1px 0 rgba(242, 242, 242, 0.5);
+}
+.followBtn {
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  padding: 6px 10px;
+  background-color: #000;
+  position: relative;
+  right: 4px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  width: 170px;
+  height: 37px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Transparansi hitam */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    position: fixed;
+  }
+  
+  .modalContainer {
+    background-color: #161A1F;;
+    width: 700px;
+    height: 85%;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    color: #f2f2f2;
+
+  }
+  .modalContainer1{
+    background-color: #161A1F;;
+    width: 700px;
+    height: 85%;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
+    color: #f2f2f2;
+  }
+  .header {
+    position: sticky;
+    height: 20px;
+    background-color: #161A1F;
+    top: 0;
+    z-index: 1000; /* Pastikan z-index cukup tinggi untuk menempatkannya di atas konten lain */
+  }
+  .closeButton {
+    position: relative;
+    display: inline-block; /* Ubah menjadi elemen inline-block */
+    width: 24px; /* Tetapkan lebar gambar */
+    height: 24px; /* Tetapkan tinggi gambar */
+    padding: 8px; /* Tambahkan padding untuk memperbesar area klik */
+    left: 680px;
+    bottom: 10px;
+    cursor: pointer;
+  }
+
+  .closeButton1 {
+    position: relative;
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
+    bottom: 60px;
+    left: 660px;
+  }
+  .titleText {
+    margin-left: 280px;
+    font-size: 24px;
+    font-weight: bold;
+    position: relative;
+   bottom: 70px;
+  }
+
+  .titleText1 {
+    margin-left: 250px;
+    font-size: 24px;
+    font-weight: bold;
+    position: relative;
+    bottom: 10px;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    bottom: 30px;
+    margin-top: 20px;
+  }
+  
+  .label {
+    margin-bottom: 10px;
+  }
+
+
+  .iconContainer {
+    background-color: #21272B;
+    position: relative;
+    border-top-left-radius: 5px; /* Radius sudut kiri atas */
+    border-bottom-left-radius: 5px; /* Radius sudut kiri atas */
+    top: 45px;
+    width: 40px; 
+    height: 29px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px; 
+    padding: 8px;
+  }
+  
+  .icon {
+    width: 80%; /* Sesuaikan dengan ukuran ikon */
+    height: auto; /* Biarkan tinggi ikon menyesuaikan proporsi */
+  }
+  
+  .inputFieldSocialMedia {
+    padding: 13px;
+    border-top-right-radius: 5px; /* Radius sudut kiri atas */
+    border-bottom-right-radius: 5px; /* Radius sudut kiri atas */
+    border-left: none;
+    font-size: 16px;
+    width: 80%;
+    margin-left: 55px;
+    background-color: #21272B;
+    border: #000;
+    color: #f2f2f2;
+  }
+
+  .inputFieldSocialMedia:focus {
+    box-shadow: 3px 3px 10px rgba(0,0,0,1),
+    -1px -1px 6px rgba(255, 255, 255, 0.4),
+    inset 3px 3px 10px rgba(0,0,0,  1),
+    inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+  }
+  .inputField {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    font-size: 16px;
+    width: 93%;
+    background-color: #21272B;
+  }
+
+  .inputFieldBio {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    font-size: 16px;
+    width: 90%;
+    height: 100px;
+    background-color: #21272B;
+    
+  }
+
+
+  .textarea {
+    resize: none; /* Mencegah pengguna untuk memperbesar atau memperkecil area teks */
+  }
+  .inputContainerSocialMedia{
+    margin-top: -40px;
+  }
+  .textLabel{
+    position: relative;
+    margin-top: 20px;
+  }
+
+  
+  .SocialMedia {
+    background-color: #21272B; /* Warna latar belakang */
+    color: #fff; /* Warna teks */
+    padding: 10px 20px; /* Padding */
+    border: none; /* Hapus border */
+    border-radius: 5px; /* Tambahkan sudut */
+    cursor: pointer; /* Ubah kursor saat mengarah */
+    transition: background-color 0.3s ease; /* Transisi hover */
+    width: 95%;
+    margin-top: 10px; /* Jarak atas */
+  }
+  
+  .SocialMedia button:hover {
+    background-color: #21272B; /* Warna latar belakang saat dihover */
+  }
+
+  .submitButtonContainer {
+    bottom: 40px; /* Atur bottom: 0 untuk menempatkannya di bagian bawah */
+    position: sticky; /* Gunakan position: sticky */
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+  }
+
+  .submitButtonContainer1 {
+    background-color: #161A1F;
+    bottom: 0px; /* Atur bottom: 0 untuk menempatkannya di bagian bawah */
+    position: sticky; /* Gunakan position: sticky */
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+  }
+
+  .cancelButton {
+    margin-top: 20px; /* Gunakan margin-top:auto untuk membuat tombol tetap berada di bagian bawah modal */
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 15%;
+    top:500px;
+    margin-right: 20px;
+  }
+  
+  .submitButton {
+    margin-top: 20px; /* Gunakan margin-top:auto untuk membuat tombol tetap berada di bagian bawah modal */
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 15%;
+    top:500px;
+  }
+  
+
+
+  .submitButton:hover {
+    background-color: #0056b3;
+  }
+
+  .SocialMedia {
+    margin-top: 20px;
+    padding: 10px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  .arrowButton {
+    position: absolute;
+    height: 30px;
+    width: 30px;
+    bottom: 0px;
+    right: 660px;
+    color: white;
+    cursor: pointer;
+    
+  }
+
+
+  
+  .addLinkText{
+    margin-bottom: 40px;
+    position: relative;
+    margin-top: 20px;
+  }
+  

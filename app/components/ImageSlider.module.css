@@ -1,0 +1,64 @@
+.sliderContainer {
+    position: relative;
+    width: 100%;
+    max-width: 600px; /* Sesuaikan dengan lebar maksimum slider */
+    margin: 0 auto;
+  }
+  
+  .imageSlide {
+    width: 100%;
+    height: 300px;
+    object-fit: fill; /* Memastikan gambar memenuhi kotak img container */
+  }
+  
+  .buttonSlidePrev {
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    float: left;
+    left: -10px;
+    top:  140px;
+    cursor: pointer;
+    width: 50px; /* Sesuaikan ukuran dengan font-size nextSlide */
+    height: 50px; /* Sesuaikan ukuran dengan font-size nextSlide */
+    rotate: 180deg;
+  }
+  
+  .buttonSlideNext {
+      position: absolute;
+      bottom:  140px;
+      right: -10px;
+      float: left;
+      background-color: transparent;
+      border: none;
+      color: red;
+      cursor: pointer;
+      background-image: url(../../public/arrow.svg); /* Menambahkan background image */
+      background-repeat: no-repeat;
+      background-size: contain; /* Mengatur ukuran background image */
+      width: 50px; /* Sesuaikan ukuran dengan font-size nextSlide */
+      height: 50px; /* Sesuaikan ukuran dengan font-size nextSlide */
+
+  }
+  
+  .dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+  }
+  
+  .dot {
+    width: 10px;
+    height: 10px;
+    background-color: rgba(255, 255, 255, 0.5); /* Warna titik non-aktif */
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
+  .dot.active {
+    background-color: white; /* Warna titik aktif */
+  }
+  

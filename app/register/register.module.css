@@ -1,0 +1,325 @@
+.dailyUiChallenege01 {
+  width: 100vw;
+  position: relative;
+  background-color: #fdf9ff;
+  height: 100vh;
+  overflow: hidden;
+  text-align: left;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: "Poppins";
+}
+.imageContainerIcon {
+  width: 984px;
+  height: 100vh;
+  margin-top: 30px;
+}
+
+.registerContainer {
+  position: absolute;
+  right: 50px;
+  top: 50px;
+  width: 484px;
+  height: 579px;
+  text-align: left;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: "Poppins";
+}
+
+.bgRegisterIcon {
+  width: 484px;
+  height: 579px;
+  object-fit: cover;
+}
+.registertitleText {
+  position: absolute;
+  top: 20px;
+  left: 157px;
+  width: 170px;
+  height: 32px;
+  font-size: 50px;
+  color: #fff;
+  font-family: "Rajdhani";
+}
+
+
+
+.register1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-weight: 600;
+}
+
+.ContainerInput{
+  position: relative;
+  bottom: 20px;
+}
+
+.usernameInput {
+  position: relative;
+  bottom: 470px;
+  left: 61px;
+  height: 52px;
+}
+
+.usernameInputText {
+  border-top-right-radius: 13px; /* Radius sudut kiri atas */
+  border-bottom-right-radius: 13px; /* Radius sudut kiri atas */
+  border-right: 1px solid rgba(255, 255, 255, 0.8);
+  border-left: none; /* Menghilangkan garis batas sebelah kanan */
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+  outline: 0;
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  left: 54px;
+  box-sizing: border-box;
+  width: 314px;
+  height: 52px;
+  color: #fff;
+}
+
+.usernameInputText::placeholder {
+  position: absolute;
+  left: 5px;
+  font-family: "Poppins";
+}
+
+.vectorIcon1 {
+  border-top-left-radius: 13px; /* Radius sudut kiri atas */
+  border-bottom-left-radius: 13px; /* Radius sudut kiri atas */
+  border-left: 1px solid rgba(255, 255, 255, 0.8);
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+  border-right: none; /* Menghilangkan garis batas sebelah kanan */
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  left: 0px;
+  box-sizing: border-box;
+  width: 54px;
+  height: 52px;
+  padding: 10px;
+}
+
+.fullnameInput {
+  position: relative;
+  bottom: 450px;
+  left: 61px;
+  height: 52px;
+}
+
+.fullnameInputText {
+  border-top-right-radius: 13px; /* Radius sudut kiri atas */
+  border-bottom-right-radius: 13px; /* Radius sudut kiri atas */
+  border-right: 1px solid rgba(255, 255, 255, 0.8);
+  border-left: none; /* Menghilangkan garis batas sebelah kanan */
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+  outline: 0;
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  left: 54px;
+  box-sizing: border-box;
+  width: 314px;
+  height: 52px;
+  color: #fff;
+}
+
+.fullnameInputText::placeholder {
+  position: absolute;
+  left: 5px;
+  font-family: "Poppins";
+}
+
+.passwordInput {
+  position: relative;
+  bottom: 430px;
+  left: 61px;
+  height: 52px;
+}
+
+.passwordInputText {
+  border-top-right-radius: 13px; /* Radius sudut kiri atas */
+  border-bottom-right-radius: 13px; /* Radius sudut kiri atas */
+  border-right: 1px solid rgba(255, 255, 255, 0.8);
+  border-left: none; /* Menghilangkan garis batas sebelah kanan */
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+  outline: 0;
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  left: 54px;
+  box-sizing: border-box;
+  width: 314px;
+  height: 52px;
+  color: #fff;
+}
+
+.vectorIcon2 {
+  border-top-left-radius: 13px; /* Radius sudut kiri atas */
+  border-bottom-left-radius: 13px; /* Radius sudut kiri atas */
+  border-left: 1px solid rgba(255, 255, 255, 0.8);
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+  border-right: none; /* Menghilangkan garis batas sebelah kanan */
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  left: 0px;
+  box-sizing: border-box;
+  width: 54px;
+  height: 52px;
+  padding: 10px;
+}
+
+.passwordInputText::placeholder {
+  position: absolute;
+  left: 5px;
+  font-family: "Poppins";
+}
+
+.emailInput {
+  position: relative;
+  bottom: 410px;
+  left: 61px;
+  height: 52px;
+}
+
+.emailInputText {
+  border-top-right-radius: 13px; /* Radius sudut kiri atas */
+  border-bottom-right-radius: 13px; /* Radius sudut kiri atas */
+  border-right: 1px solid rgba(255, 255, 255, 0.8);
+  border-left: none; /* Menghilangkan garis batas sebelah kanan */
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+  outline: 0;
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  left: 54px;
+  box-sizing: border-box;
+  width: 314px;
+  height: 52px;
+  color: #fff;
+}
+
+.vectorIcon3 {
+  border-top-left-radius: 13px; /* Radius sudut kiri atas */
+  border-bottom-left-radius: 13px; /* Radius sudut kiri atas */
+  border-left: 1px solid rgba(255, 255, 255, 0.8);
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+  border-right: none; /* Menghilangkan garis batas sebelah kanan */
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  left: 0px;
+  box-sizing: border-box;
+  width: 54px;
+  height: 52px;
+  padding: 13px;
+}
+
+.emailInputText::placeholder {
+  position: absolute;
+  left: 5px;
+  font-family: "Poppins";
+}
+
+.chooseyourcountryInput {
+  position: relative;
+  bottom: 390px;
+  left: 61px;
+  height: 52px;
+}
+
+.chooseyourcountrySelectChild {
+  background-color: transparent;
+  border-top-right-radius: 13px; /* Radius sudut kiri atas */
+  border-bottom-right-radius: 13px; /* Radius sudut kiri atas */
+  border-left: none;
+  border-right: 1px solid rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+  outline: 0;
+  position: absolute;
+  top: 0;
+  left: 42px; /* Adjust the left position to match the email input */
+  width: 318px; /* Adjust the width to match the email input */
+  height: 45px; /* Keep the same height as the email input */
+  color: black;
+  -webkit-appearance: none; /* Untuk browser WebKit (Chrome, Safari, dll.) */
+  -moz-appearance: none; /* Untuk browser Mozilla Firefox */
+  appearance: none; /* Untuk browser yang mendukung */
+  font-family: "Poppins";
+  padding-left: 8px;
+}
+
+.chooseyourcountrySelectChild option {
+  /* Styling untuk option */
+  color: #333; /* Warna teks */
+  background-color: #fff; /* Warna latar belakang */
+  font-size: 14px; /* Ukuran font */
+  font-family: "Poppins";
+  /* Tambahan styling lainnya */
+}
+
+.vectorIcon4 {
+  border-top-left-radius: 13px; /* Radius sudut kiri atas */
+  border-bottom-left-radius: 13px; /* Radius sudut kiri atas */
+  border-left: 1px solid rgba(255, 255, 255, 0.8);
+  border-top: 1px solid rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+  border-right: none; /* Menghilangkan garis batas sebelah kanan */
+  background-color: transparent;
+  position: absolute;
+  top: 0;
+  left: 0px;
+  box-sizing: border-box;
+  width: 54px;
+  height: 52px;
+  padding: 13px;
+}
+
+.vectorIcon {
+  position: absolute;
+  left: 330px;
+  top: 18px;
+}
+
+.registerBtnChild {
+  position: relative;
+  bottom: 320px;
+  left: 180px;
+  border-radius: 13px;
+  background: linear-gradient(98.95deg, #3caa7b, #296e49);
+  width: 124px;
+  height: 52px;
+  cursor: pointer;
+}
+.register {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+}
+
+.loginContainer{
+  position: relative;
+  bottom: 440px;
+  left: 70px;
+  font-size: 20px;
+}
+
+.registerNow1{
+  color:#3caa7b;
+text-decoration: none;
+}

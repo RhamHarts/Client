@@ -1,0 +1,164 @@
+/* File: ImageModal.module.css */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal {
+  overflow-y: auto;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  max-height: 80%;
+}
+
+.content {
+  display: flex;
+}
+
+.image {
+  max-width: 50%;
+  max-height: 100vh;
+  height: auto;
+  margin-right: 20px;
+}
+
+.contentBox {
+  flex-grow: 1;
+  position: relative;
+  right: 20px;
+  bottom: 12px;
+}
+
+.closeButton {
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  right: 0px;
+  top: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.Name {
+  font-size: 24px;
+  font-weight: 840;
+  color: #000;
+  margin-left: 20px;
+  margin-top: 8px;
+  margin-bottom: 10px;
+}
+
+.Description {
+  margin-left: 20px;
+  font-size: 18px;
+  font-weight: 440;
+    margin-bottom: 10px;
+}
+
+.ActionButtons{
+  display: flex;
+  position: absolute;
+  margin-top: 1px;
+  left: 20px;
+}
+
+
+.bookmarked img {
+  filter: invert(43%) sepia(94%) saturate(2479%) hue-rotate(195deg)
+    brightness(104%) contrast(98%);
+}
+
+.Loved img {
+  filter: invert(15%) sepia(92%) saturate(6311%) hue-rotate(346deg) brightness(98%) contrast(94%);
+}
+
+.Shared img {
+  filter: invert(59%) sepia(98%) saturate(3742%) hue-rotate(83deg) brightness(96%) contrast(92%);
+}
+
+
+
+.IconLove{
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  position: relative;
+  margin-right: 8px;
+}
+
+.IconBookmark {
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  position: relative;
+  margin-right: 10px;
+}
+
+.IconShare {
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  position: relative;
+}
+
+.Description1 {
+  position: relative;
+  margin-left: 20px;
+  font-size: 14px;
+  font-weight: 440;
+  margin-top: 55px;
+}
+
+.Description2 {
+  font-size: 14px;
+  font-weight: 440;
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  padding-left: 19px;
+  margin-left: 20px;
+  margin-top: 7px;
+}
+
+.ButtonContainer {
+  margin-top: 50px;
+}
+
+.requestBtn {
+  font-size: 16px;
+  font-weight: 640;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  padding: 13px 0;
+  background-color: #000;
+  border-radius: 20px;
+  box-sizing: border-box;
+  width: 500px;
+  height: 51px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  bottom: -20px;
+  left: calc(50% - 250px);
+  position: absolute;
+}
+
+.requestBtnText {
+  position: relative;
+  font-size: 20px;
+  color: #f2f2f2;
+  font-family: Inter;
+  text-align: left;
+}
+

@@ -1,0 +1,214 @@
+.frame2 {
+  width: 270px;
+  overflow: hidden;
+  flex-shrink: 0;
+  flex-direction: row;
+  justify-content: flex-start;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  left:20px;
+}
+.loginmodal {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  width: 124px; /* Lebarnya tetap 124px */
+  border-radius: 13px;
+  background: linear-gradient(98.95deg, #0dff99, #b10dff);
+  flex-direction: column;
+  justify-content: center;
+  text-decoration: none;
+  height: 52px; /* Tingginya tetap 52px */
+  display: flex;
+  align-items: center;
+  position: relative;
+  transition: transform 0.2s; /* Tambahkan transisi untuk efek animasi ketika tombol diklik */
+}
+
+ .loginmodaltext{
+  font-size: 12px;
+  text-transform: uppercase;
+  font-family: "Poppins";
+  color: #fff;
+  text-align: left;
+ }
+
+ .loginContainer {
+    width: 484px;
+    border-radius: 60px 60px 60px 60px;
+    height: 579px;
+    justify-content: flex-start;
+    padding: 56px 59px 56px 61px;
+    box-sizing: border-box;
+    background-image: url(/Icons/login-container@3x.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top;
+    font-size: 50px;
+    color: #fff;
+    font-family: "Rajdhani";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    /* Tambahkan properti lain sesuai kebutuhan Anda */
+  }
+  .frame {
+    height: 462px;
+    align-items: center;
+    width: 124px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .dailyUiChallenege01,
+.loginContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+  .login {
+    font-weight: 600;
+    margin: auto;
+  }
+
+  .loginBtn {
+    border-radius: 13px;
+    background: linear-gradient(98.95deg, #3caa7b, #296e49);
+    height: 52px;
+    box-sizing: border-box;
+    padding: 0 40px 10px 35px;
+    font-size: 26px;
+    font-family: "Poppins";
+    margin-top: 350px;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .registerBtn {
+    cursor: pointer;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    width: 124px;
+    border-radius: 13px;
+    background: linear-gradient(98.95deg, #0dff99, #b10dff);
+    flex-direction: column;
+    justify-content: center;
+    text-decoration: none;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    margin-left: 18px;
+  }
+
+  .register {
+    font-size: 12px;
+    text-transform: uppercase;
+    font-family: "Poppins";
+    color: #fff;
+    text-align: left;
+    position: relative;
+  }
+
+  .welcomeText {
+    font-size: 20px;
+    color: white;
+    white-space: nowrap; /* Teks akan di-render dalam satu baris tanpa pemutusan */
+  }
+
+  .loginNow {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 20px;
+    text-decoration: none; /* Menghilangkan garis bawah */
+    color: inherit; /* Mewarisi warna dari elemen induknya */
+  }
+
+  .registerNow {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    text-decoration: none; /* Menghilangkan garis bawah */
+    color: inherit; /* Mewarisi warna dari elemen induknya */
+    white-space: nowrap; /* Mencegah pemisahan kata */
+  }
+
+  .registerNow1 {
+    color: #3caa7b;
+    text-decoration: none; /* Menghilangkan garis bawah */
+    white-space: nowrap; /* Mencegah pemisahan kata */
+  }
+
+  .frame,
+  .loginBtn
+  {
+    width: 124px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .frame1 {
+    right: 8px;
+    top: 160px;
+    position: absolute;
+    height: 128px;
+    overflow: hidden;
+    flex-shrink: 0;
+    gap: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 398px;
+    justify-content: flex-start;
+  }
+ 
+
+
+  .usernameInput {
+    width: 364px;
+    justify-content: flex-start;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    outline: 0;
+    font-family: "Poppins";
+    font-size: 12px;
+    background-color: transparent;
+    border-radius: 13px;
+    box-sizing: border-box;
+    height: 52px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 15px; /* Tambahkan padding untuk memberikan jarak antara teks dan input box */
+    color: rgba(255, 255, 255, 0.5);
+    transition: background-color 0.3s; /* Tambahkan transisi untuk efek smooth */
+  }
+  
+  /* Efek saat input mendapatkan fokus */
+  .usernameInput:focus {
+    border: 2px solid transparent;
+    color: #fff;
+    box-shadow: 3px 3px 10px rgba(0,0,0,1),
+    -1px -1px 6px rgba(255, 255, 255, 0.4),
+    inset 3px 3px 10px rgba(0,0,0,1),
+    inset -1px -1px 6px rgba(255, 255, 255, 0.4);
+  }
+  
+
+  .closeButton{
+    position: relative;
+height: 10%;
+width: 30%;
+left: 190px;
+top: 20px;
+color: aliceblue;
+cursor: pointer;
+  }

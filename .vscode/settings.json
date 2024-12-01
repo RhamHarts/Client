@@ -1,0 +1,21 @@
+{
+  "detectedConfig": {
+    "typescript": true,
+    "naming": "Pascal Case",
+    "unit": "px",
+    "framework": "nextjs",
+    "styling": "Tailwind"
+  },
+  "locofyConfig": {
+    "project": "Commisapp",
+    "id": "65c20adff76935cf041f43b5",
+    "framework": "react-nextjs",
+    "typescript": true,
+    "styling": "Tailwind",
+    "unit": "px",
+    "naming": "Kebab Case",
+    "path": "public/",
+    "componentsPath": "c:\\Users\\user\\Documents\\irham\\CommisApp\\Client\\comissapp\\app\\components",
+    "screensPath": "c:\\Users\\user\\Documents\\irham\\CommisApp\\Client\\comissapp\\app\\pages"
+  }
+}
