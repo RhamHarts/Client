@@ -29,10 +29,10 @@ const SendVerificationRegister: React.FC = () => {
             Please check your email and click the verification link to verify
             the email.
           </p>
-          <div className="mt-6">
+          <div className="mt-6 flex justify-center">
             <button
               onClick={() => window.open("https://mail.google.com", "_blank")}
-              className="bg-[#0dff99] text-white px-4 py-2 rounded-md shadow hover:bg-green-500 transition duration-300 ease-in-out"
+              className="bg-[#0dff99] text-xl text-white px-10 py-5 rounded-md shadow hover:bg-green-500 transition duration-300 ease-in-out cursor-pointer"
             >
               Check Your Email
             </button>

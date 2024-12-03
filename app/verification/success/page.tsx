@@ -2,7 +2,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 
-const VerificationSuccessLogin: React.FC = () => {
+const VerificationSuccess: React.FC = () => {
   const router = useRouter();
 
   return (
@@ -32,10 +32,10 @@ const VerificationSuccessLogin: React.FC = () => {
             have full access to all of our features. Thank you for verifying
             your email.
           </p>
-          <div className="mt-6">
+          <div className="mt-6 flex justify-center">
             <button
               onClick={() => router.push("/")}
-              className="bg-[#0dff99] text-white px-4 py-2 rounded-md shadow hover:bg-green-500 transition duration-300 ease-in-out"
+              className="bg-[#0dff99] text-xl text-white px-10 py-5 rounded-md shadow hover:bg-green-500 transition duration-300 ease-in-out cursor-pointer"
             >
               Go to Homepage
             </button>
@@ -46,4 +46,4 @@ const VerificationSuccessLogin: React.FC = () => {
   );
 };
 
-export default VerificationSuccessLogin;
+export default VerificationSuccess;

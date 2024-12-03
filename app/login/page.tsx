@@ -1,9 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation"; // Import useRouter from Next.js
-import axios from "axios";
 import Cookies from "js-cookie";
-import styles from "./coba.module.css";
+import axios from "axios";
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState("");
@@ -23,7 +22,7 @@ const Login: React.FC = () => {
   const handleLoginClick = async () => {
     try {
       const response = await axios.post(
-        "http://153.92.208.131:3000/api/auth/login",
+        "https://api.artwishcreation.com/api/auth/login",
         {
           email: username,
           password: password,
@@ -37,17 +36,18 @@ const Login: React.FC = () => {
       );
 
       const data = response.data;
-      console.log("Login successful:", data);
+      if (data.accessToken) {
+        // Store tokens in cookies
+        Cookies.set("ref", data.accessToken, { expires: 7, path: "/" });
+        Cookies.set("refreshToken", data.refreshToken, {
+          expires: 30,
+          path: "/",
+        });
 
-      // Extract the accessToken
-      const token = data.accessToken;
-      if (token) {
-        // Store the access token in a cookie named 'ref'
-        Cookies.set("ref", token, { expires: 7, path: "/" });
-        console.log("Access token stored in cookie:", token);
-
-        // Set the token as default Authorization header for axios
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        // Optionally set Authorization header for immediate subsequent requests
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${data.accessToken}`;
 
         setSuccess("Login successful!");
         setError("");
@@ -57,10 +57,10 @@ const Login: React.FC = () => {
       }
     } catch (error) {
       setError("An error occurred during login. Please try again.");
-      setSuccess("");
       console.error("Error during login:", error);
     }
   };
+
   return (
     <div className="h-screen bg-fdf9ff overflow-hidden text-left text-xs text-white font-poppins flex justify-center items-center">
       <div className="grid sm:grid-cols-2 relative lg:inset-x-40">

@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
-import Cookies from "js-cookie"; // Import js-cookie library
+import Cookies from "js-cookie";
+import axios from "axios";
+import { useRouter } from "next/navigation"; // Import useRouter from Next.js
 import styles from "./ProfileButtonModal.module.css";
+import { useAuth } from "../Context/AuthContext";
 
 const ProfileButton: React.FC = () => {
+  const { loading, isUserLoggedIn } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState<string | null>(null);
+  const [fetchedData, setFetchedData] = useState<any>(null);
+
+  const router = useRouter(); // Initialize the useRouter hook
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prevState) => !prevState);
@@ -20,46 +27,56 @@ const ProfileButton: React.FC = () => {
     closeDropdown();
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    Cookies.remove("isLoggedIn");
-    Cookies.remove("username");
-    Cookies.remove("token");
+  const handleLogout = async () => {
+    try {
+      const response = await axios.get(
+        "https://api.artwishcreation.com/api/auth/logout",
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
 
-    window.location.reload();
-    console.log("berhasil logout");
+      if (response.status === 200) {
+        Cookies.remove("isLoggedIn");
+        Cookies.remove("username");
+        Cookies.remove("token");
+
+        setIsLoggedIn(false);
+        alert("Berhasil logout");
+
+        // Redirect to login page
+        router.push("/login");
+      } else {
+        alert("Logout gagal");
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
+      alert("Terjadi kesalahan saat logout. Coba lagi.");
+    }
   };
 
-  const fetchProfileData = async (token: string) => {
+  const fetchData = async () => {
     try {
-      const response = await fetch(
-        "http://153.92.208.131:3000/api/auth/profile",
+      const response = await axios.get(
+        "https://api.artwishcreation.com/api/auth/profile",
         {
-          method: "GET",
           headers: {
-            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         }
       );
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch profile data.");
-      }
-
-      const data = await response.json();
-      setUsername(data.data.username);
+      setFetchedData(response.data);
     } catch (error) {
-      console.error("Error fetching profile data:", error);
+      console.error("Error fetching data:", error);
     }
   };
 
   useEffect(() => {
-    const token = Cookies.get("token"); // Retrieve token from cookies
-
-    if (token) {
-      setIsLoggedIn(true);
-      fetchProfileData(token);
-    }
+    fetchData();
   }, []);
 
   return (
@@ -69,7 +86,7 @@ const ProfileButton: React.FC = () => {
         onClick={toggleDropdown}
       >
         <h3 className="font-bold text-xl relative left-12 top-1">
-          {username || "RhamHarts"}
+          {fetchedData && fetchedData.data ? fetchedData.data.username : "User"}
         </h3>
         <img
           className="h-5 w-5 relative right-40"

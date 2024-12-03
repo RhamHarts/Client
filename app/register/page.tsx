@@ -1,15 +1,16 @@
 "use client";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation"; // Ensure this is correctly imported
-import styles from "./coba.module.css";
+import { useRouter } from "next/navigation";
+import CountryIcons from "../components/CountryDropdown";
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [country, setCountry] = useState("VN");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter();
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -26,16 +27,17 @@ const Register: React.FC = () => {
   const handleRegisterClick = async () => {
     try {
       const response = await fetch(
-        "http://153.92.208.131:3000/api/auth/register",
+        "https://api.artwishcreation.com/api/auth/register",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username: username,
-            email: email,
-            password: password,
+            username,
+            email,
+            password,
+            country, // Used directly here
           }),
         }
       );
@@ -49,25 +51,24 @@ const Register: React.FC = () => {
       setSuccess("Registration successful!");
       setError("");
 
-      // Redirect to login page after successful registration
-      router.push("/login");
+      // Redirect to the verification/register page after successful registration
+      router.push("/verification/register");
     } catch (error) {
       setError("An error occurred during registration. Please try again.");
       setSuccess("");
       console.error("Error:", error);
     }
   };
-
   return (
     <div className="h-screen bg-fdf9ff overflow-hidden text-left text-xs text-white font-poppins flex justify-center items-center">
       <div className="grid sm:grid-cols-2 relative lg:inset-x-40">
         <img
-          className="max-w-full h-[580px] max-sm:hidden"
+          className="max-w-full h-[700px] max-sm:hidden"
           alt=""
           src="https://images.unsplash.com/photo-1617406439276-5d9772b08ad4?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQ4MTg1NjR8&ixlib=rb-4.0.3&q=85"
         />
         <img
-          className="object-auto w-[400px] h-[580px]"
+          className="object-auto w-[400px] h-[700px]"
           alt=""
           src="https://images.unsplash.com/photo-1519895710315-a04b64f04a36?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQ4MTg1ODN8&ixlib=rb-4.0.3&q=85"
         />
@@ -98,8 +99,9 @@ const Register: React.FC = () => {
               value={password}
               onChange={handlePasswordChange}
             />
+            <CountryIcons setCountry={setCountry} />
           </div>
-          <div className="h-[384px] w-[384px] absolute top-16 left-16 flex items-center justify-center">
+          <div className="relative mt-28 ml-10 flex items-center justify-center">
             <div className="flex relative">
               <p className="relative top-44 text-center font-bold text-base no-underline whitespace-nowrap">
                 Already have an account?{" "}
