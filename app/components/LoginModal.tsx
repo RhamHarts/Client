@@ -1,13 +1,21 @@
-"use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation"; // Import useRouter from Next.js
+import Cookies from "js-cookie";
+import axios from "axios";
 
 const LoginModal: React.FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [isLoggedIn, setIsLoggedIn] = useState(
     typeof window !== "undefined" &&
       sessionStorage.getItem("isLoggedIn") === "true"
   );
+
+  const router = useRouter(); // Initialize useRouter
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -17,20 +25,6 @@ const LoginModal: React.FC = () => {
     setPassword(e.target.value);
   };
 
-  const handleLoginClick = () => {
-    // Lakukan autentikasi
-    if (username === "admin" && password === "admin123") {
-      setIsLoggedIn(true);
-      sessionStorage.setItem("isLoggedIn", "true"); // Menyimpan status login di sessionStorage
-      sessionStorage.setItem("username", username); // Menyimpan username di sessionStorage
-      console.log("Login successful!");
-    } else {
-      console.log("Invalid username or password");
-    }
-  };
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -39,8 +33,50 @@ const LoginModal: React.FC = () => {
     setIsModalOpen(false);
   };
 
+  const handleLoginClick = async () => {
+    try {
+      const response = await axios.post(
+        "https://api.artwishcreation.com/api/auth/login",
+        {
+          email: username,
+          password: password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true, // Ensure cookies are sent with the request
+        }
+      );
+
+      const data = response.data;
+      if (data.accessToken) {
+        // Store tokens in cookies
+        Cookies.set("ref", data.accessToken, { expires: 7, path: "/" });
+        Cookies.set("refreshToken", data.refreshToken, {
+          expires: 30,
+          path: "/",
+        });
+
+        // Optionally set Authorization header for immediate subsequent requests
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${data.accessToken}`;
+
+        setSuccess("Login successful!");
+        setError("");
+        window.location.reload();
+      } else {
+        throw new Error("Token is not provided by the API.");
+      }
+    } catch (error) {
+      setError("An error occurred during login. Please try again.");
+      console.error("Error during login:", error);
+    }
+  };
+
   return (
-    <div className="flex relative">
+    <div className="flex relative z-50">
       {!isLoggedIn && (
         <button
           className="cursor-pointer border-0 bg-transparent w-32 rounded-lg bg-gradient-to-br from-green-500 to-purple-500 flex flex-col justify-center text-white text-center h-12 items-center relative transition-transform duration-200"
@@ -62,62 +98,50 @@ const LoginModal: React.FC = () => {
         </button>
       )}
       {isModalOpen && (
-        <div
-          className="w-1/5 h-3/5 flex justify-start p-14 bg-cover bg-no-repeat bg-top text-white text-4xl font-rajdhani fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50"
-          style={{
-            backgroundImage: "url(/Icons/login-container@3x.png)",
-          }}
-        >
-          {/* Konten di sini */}
-          <div className="h-96 w-96 flex items-center justify-center">
-            {/* Icon close modal */}
-            <img
-              src="/Icons/cross.png" // Path relatif dari folder public
-              alt="Close"
-              className="relative  h-8 left-[410px] bottom-56 text-aliceblue cursor-pointer"
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="relative flex flex-col items-center bg-white p-12 rounded-lg shadow-lg z-50">
+            <button
+              className="absolute top-2 right-2 cursor-pointer"
               onClick={closeModal}
+            >
+              <img src="/Icons/cross.png" alt="Close" className="w-6 h-6" />
+            </button>
+            <img
+              className="w-[500px] h-auto"
+              alt=""
+              src="https://images.unsplash.com/photo-1519895710315-a04b64f04a36?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTQ4MTg1ODN8&ixlib=rb-4.0.3&q=85"
             />
-            {/* End of Icon close modal */}
-            <h3 className="relative font-semibold mx-auto bottom-52 left-36">
-              Login
-            </h3>
-            <div className="flex relative right-[50px]">
-              <p className="relative top-44 text-center font-bold text-base no-underline whitespace-nowrap">
-                Not have account yet?{" "}
-                <a
-                  href="/register"
-                  className="text-center text-green-500  font-bold text-base no-underline whitespace-nowrap"
-                >
-                  Register
-                </a>{" "}
-                now
-              </p>
-              <button
-                className="relative top-60 right-52 rounded-lg bg-gradient-to-br from-green-500 to-green-700 h-22 box-border px-10 pb-2 pt-2 text-2xl font-poppins  w-full cursor-pointer"
-                onClick={handleLoginClick}
-              >
-                <b className="text-center font-bold text-lg no-underline">
-                  Login
-                </b>
-              </button>
-            </div>
-          </div>
-          <div className="absolute right-7 top-40 h-128 overflow-hidden flex-shrink-0 gap-6 flex flex-col items-center w-398 justify-start">
-            <input
-              className="px-2 py-6 text-gray-300 text-xs bg-transparent rounded-xl box-border h-[52px] flex flex-row items-center w-[364px] justify-start border-2 border-solid border-white outline-none font-poppins"
-              placeholder="Username"
-              type="text"
-              value={username}
-              onChange={handleUsernameChange}
-            />
+            <h2 className="mb-8 text-4xl font-semibold">Login</h2>
+            <div className="flex flex-col w-[380px] gap-6">
+              <input
+                className="px-5 py-3 text-gray-700 border rounded-lg outline-none"
+                placeholder="Email"
+                type="text"
+                value={username}
+                onChange={handleUsernameChange}
+              />
 
-            <input
-              className="px-2 py-6 text-gray-300 text-xs bg-transparent rounded-xl box-border h-[52px] flex flex-row items-center w-[364px] justify-start border-2 border-solid border-white outline-none font-poppins"
-              placeholder="Password"
-              type="password"
-              value={password}
-              onChange={handlePasswordChange}
-            />
+              <input
+                className="px-5 py-3 text-gray-700 border rounded-lg outline-none"
+                placeholder="Password"
+                type="password"
+                value={password}
+                onChange={handlePasswordChange}
+              />
+            </div>
+            <button
+              className="px-6 py-3 mt-8 text-xl font-bold text-white bg-green-500 rounded-lg"
+              onClick={handleLoginClick}
+            >
+              Login
+            </button>
+            <p className="mt-6">
+              Not have account yet?{" "}
+              <a href="/register" className="text-green-500 font-bold">
+                Register
+              </a>{" "}
+              now
+            </p>
           </div>
         </div>
       )}

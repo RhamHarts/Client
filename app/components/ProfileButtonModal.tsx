@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
-import { useRouter } from "next/navigation"; // Import useRouter from Next.js
-import styles from "./ProfileButtonModal.module.css";
+import { useRouter } from "next/navigation";
 import { useAuth } from "../Context/AuthContext";
 
 const ProfileButton: React.FC = () => {
@@ -12,7 +11,7 @@ const ProfileButton: React.FC = () => {
   const [username, setUsername] = useState<string | null>(null);
   const [fetchedData, setFetchedData] = useState<any>(null);
 
-  const router = useRouter(); // Initialize the useRouter hook
+  const router = useRouter();
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prevState) => !prevState);
@@ -40,21 +39,23 @@ const ProfileButton: React.FC = () => {
       );
 
       if (response.status === 200) {
+        // Clear specific cookies
         Cookies.remove("isLoggedIn");
         Cookies.remove("username");
         Cookies.remove("token");
+        Cookies.remove("ref"); // Clear the 'ref' cookie as well
 
         setIsLoggedIn(false);
-        alert("Berhasil logout");
+        alert("Logout successful!");
 
         // Redirect to login page
         router.push("/login");
       } else {
-        alert("Logout gagal");
+        alert("Logout failed");
       }
     } catch (error) {
       console.error("Error during logout:", error);
-      alert("Terjadi kesalahan saat logout. Coba lagi.");
+      alert("An error occurred while logging out. Please try again.");
     }
   };
 
@@ -82,20 +83,19 @@ const ProfileButton: React.FC = () => {
   return (
     <div className="relative">
       <button
-        className="cursor-pointer border-0 p-0 bg-gray-800 w-48 h-12 rounded-lg flex justify-between items-center"
+        className="cursor-pointer border-0 p-0 bg-gray-800 w-48 h-12 rounded-lg flex items-center"
         onClick={toggleDropdown}
       >
-        <h3 className="font-bold text-xl relative left-12 top-1">
-          {fetchedData && fetchedData.data ? fetchedData.data.username : "User"}
-        </h3>
-        <img
-          className="h-5 w-5 relative right-40"
-          alt=""
-          src="/Icons/-icon-person.svg"
-        />
+        <img className="h-7 w-7 ml-2" alt="" src="/Icons/-icon-person.svg" />{" "}
+        <h3 className="text-white font-bold text-2xl ml-10">
+          {" "}
+          {fetchedData && fetchedData.data
+            ? fetchedData.data.username
+            : "User"}{" "}
+        </h3>{" "}
       </button>
       {isDropdownOpen && (
-        <div className="z-10 absolute top-12 right-0 bg-white divide-gray-100 rounded-lg shadow w-48 dark:bg-gray-700">
+        <div className="z-10 absolute top-14 right-0 bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-48 dark:bg-gray-700">
           <a
             href="/profile"
             className="block px-5 py-5 no-underline text-sm font-medium text-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
