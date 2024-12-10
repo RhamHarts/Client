@@ -34,10 +34,10 @@ const VerificationSuccess: React.FC = () => {
           </p>
           <div className="mt-6 flex justify-center">
             <button
-              onClick={() => router.push("/")}
+              onClick={() => router.push("/login")}
               className="bg-[#0dff99] text-xl text-white px-10 py-5 rounded-md shadow hover:bg-green-500 transition duration-300 ease-in-out cursor-pointer"
             >
-              Go to Homepage
+              Go to Login Page
             </button>
           </div>
         </div>

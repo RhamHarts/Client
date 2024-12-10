@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import CountryIcons from "../components/CountryDropdown";
-import { COUNTRIES } from "../components/countryIcons/country";
-import { SelectMenuOption } from "../components/countryIcons/types";
+import CountryIcons from "../components/CountryDropdownRegister";
+import { COUNTRIES } from "../components/countryIconsRegister/country";
+import { SelectMenuOption } from "../components/countryIconsRegister/types";
 
 export default function Home() {
   const [isOpen, setIsOpen] = useState(false);

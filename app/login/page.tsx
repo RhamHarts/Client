@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { useRouter } from "next/navigation"; // Import useRouter from Next.js
+import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import axios from "axios";
 
@@ -9,7 +9,8 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const router = useRouter(); // Initialize useRouter
+  const [isVerified, setIsVerified] = useState(true);
+  const router = useRouter();
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
@@ -31,33 +32,77 @@ const Login: React.FC = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          withCredentials: true, // Ensure cookies are sent with the request
+          withCredentials: true,
         }
       );
 
       const data = response.data;
+
       if (data.accessToken) {
-        // Store tokens in cookies
         Cookies.set("ref", data.accessToken, { expires: 7, path: "/" });
         Cookies.set("refreshToken", data.refreshToken, {
           expires: 30,
           path: "/",
         });
 
-        // Optionally set Authorization header for immediate subsequent requests
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${data.accessToken}`;
 
         setSuccess("Login successful!");
         setError("");
-        router.push("/"); // Redirect to home page
+        router.push("/");
+      }
+    } catch (err) {
+      // Narrow down error type
+      if (axios.isAxiosError(err) && err.response) {
+        if (err.response.status === 404) {
+          setError(
+            "User tidak ditemukan. Silakan periksa email dan coba lagi."
+          );
+        } else if (
+          err.response.status === 401 &&
+          err.response.data.message === "Please verify your email"
+        ) {
+          setIsVerified(false);
+          setError("Email belum terverifikasi.");
+        } else if (
+          err.response.status === 401 &&
+          err.response.data.message === "Invalid password"
+        ) {
+          setError("Password tidak valid. Silakan coba lagi.");
+        } else {
+          setError("Terjadi kesalahan saat login. Silakan coba lagi nanti.");
+        }
       } else {
-        throw new Error("Token is not provided by the API.");
+        setError("Terjadi kesalahan saat login. Silakan coba lagi nanti.");
+      }
+      console.error("Error during login:", err);
+    }
+  };
+
+  const handleResendVerificationEmail = async () => {
+    try {
+      const response = await axios.put(
+        `https://api.artwishcreation.com/api/auth/resend?email=${username}`,
+        {}, // Make sure the second argument is an empty object as 'put' expects a request body
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        alert("Email verifikasi telah dikirim ulang.");
+      } else {
+        throw new Error("Gagal mengirim ulang email verifikasi.");
       }
     } catch (error) {
-      setError("An error occurred during login. Please try again.");
-      console.error("Error during login:", error);
+      console.error("Error resending verification email:", error);
+      alert(
+        "Terjadi kesalahan saat mengirim ulang email verifikasi. Silakan coba lagi nanti."
+      );
     }
   };
 
@@ -118,6 +163,32 @@ const Login: React.FC = () => {
               </button>
             </div>
           </div>
+          {!isVerified && (
+            <button
+              onClick={handleResendVerificationEmail}
+              className="
+         bg-blue-500 
+         text-white 
+         py-2 
+         px-4 
+         mt-4 
+         rounded-md 
+         hover:bg-blue-600 
+         hover:shadow-lg 
+         transition 
+         duration-300 
+         ease-in-out 
+         transform 
+         hover:scale-105
+         relative
+         top-40
+         left-28
+         cursor-pointer
+       "
+            >
+              Resend Verification Email
+            </button>
+          )}
         </div>
       </div>
       {error && <p className="text-red-500">{error}</p>}

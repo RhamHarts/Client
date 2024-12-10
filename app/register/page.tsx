@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import CountryIcons from "../components/CountryDropdown";
+import CountryIcons from "../components/CountryDropdownRegister";
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -50,6 +50,9 @@ const Register: React.FC = () => {
       console.log("Registration successful:", data);
       setSuccess("Registration successful!");
       setError("");
+
+      // Save the email to local storage
+      localStorage.setItem("registeredEmail", email);
 
       // Redirect to the verification/register page after successful registration
       router.push("/verification/register");

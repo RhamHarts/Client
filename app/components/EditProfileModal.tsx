@@ -1,65 +1,72 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
-import styles from "./EditProfileModal.module.css";
+import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import axios from "axios";
+import CountryProfile from "./CountryDropdownProfile";
 
 interface Props {
   onClose: () => void;
 }
 
 const EditProfile: React.FC<Props> = ({ onClose }) => {
-  const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
-  const [bio, setBio] = useState("");
-  const [Facebook, setFacebook] = useState("");
-  const [Twitter, setTwitter] = useState("");
-  const [Instagram, setInstagram] = useState("");
-  const [Pinterest, setPinterest] = useState("");
-  const [Tiktok, setTiktok] = useState(""); // State untuk menyimpan data social media
+  const [formData, setFormData] = useState({
+    name: "",
+    username: "",
+    bio: "",
+    avatar: "",
+    banner: "",
+    country: "",
+    facebook: "",
+    twitter: "",
+    instagram: "",
+    tiktok: "",
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showSocialMediaModal, setShowSocialMediaModal] = useState(false); // State untuk menampilkan modal sosial media
+  const [showSocialMediaModal, setShowSocialMediaModal] = useState(false);
+  const [profileData, setProfileData] = useState(false);
 
-  const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-  };
-
-  const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value);
-  };
-
-  const handleBioChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setBio(event.target.value);
+  const handleChange = (e: { target: { name: any; value: any } }) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  const handleFacebookChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setFacebook(event.target.value);
-  };
+  // const handleSubmit = (e, actionType) => {
+  //   e.preventDefault();
 
-  const handleTwitterChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setTwitter(event.target.value);
-  };
+  //   const data = {
+  //     name: formData.name || "",
+  //     username: formData.username || "", // Kirim string kosong jika tidak ada input
+  //     bio: formData.bio || "",
+  //     facebook: formData.facebook || "",
+  //     instagram: formData.instagram || "",
+  //     twitter: formData.twitter || "",
+  //     tiktok: formData.tiktok || "",
+  //     actionType: actionType,
+  //   };
 
-  const handleInstagramChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setInstagram(event.target.value);
-  };
+  //   axios
+  //     .post(        "https://api.artwishcreation.com/api/profile/me", data)
+  //     .then((response) => {
+  //       console.log("Profile updated:", response.data);
+  //       // Reset form data setelah submit
+  //       setFormData({
+  //         name: "",
+  //         username: "",
+  //         bio: "",
+  //         banner: "",
+  //         avatar: "",
+  //         facebook: "",
+  //         instagram: "",
+  //         twitter: "",
+  //         tiktok: "",
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error updating profile:", error);
+  //     });
 
-  const handlePinterestChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPinterest(event.target.value);
-  };
-  const handleTiktokChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setTiktok(event.target.value);
-  };
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("Name:", name);
-    console.log("Username:", username);
-    console.log("Bio:", bio);
-    console.log("Facebook:", Facebook);
-    console.log("Twitter:", Twitter);
-    console.log("Instagram:", Instagram);
-    console.log("Pinterest:", Pinterest);
-    console.log("Tiktok:", Tiktok);
-    setIsModalOpen(false);
-  };
+  //   window.location.reload();
+  // };
 
   const handleEditProfileClick = () => {
     setIsModalOpen(true);
@@ -76,13 +83,57 @@ const EditProfile: React.FC<Props> = ({ onClose }) => {
   };
 
   const handleSocialMediaClick = () => {
-    setShowSocialMediaModal(true); // Set state untuk menampilkan modal sosial media
+    setShowSocialMediaModal(true);
   };
 
   const handleBackToEditProfile = () => {
-    setShowSocialMediaModal(false); // Set state untuk menutup modal sosial media
-    setIsModalOpen(true); // Tetapkan isModalOpen menjadi true untuk membuka kembali modal Edit Profile
+    setShowSocialMediaModal(false);
+    setIsModalOpen(true);
   };
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const storedToken = localStorage.getItem("token");
+
+      if (!storedToken) {
+        console.error("No token found. Please log in.");
+        return;
+      }
+
+      try {
+        const response = await axios.get(
+          "https://api.artwishcreation.com/api/profile/me",
+          { withCredentials: true }
+        );
+
+        if (response.data && response.data.profile) {
+          const profile = response.data.profile;
+
+          setProfileData(profile);
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            username: profile.username,
+            email: profile.email,
+            imageProfile: profile.imageProfile, // Ambil dari database
+            aboutMe: profile.aboutMe || "",
+            facebook: profile.facebook,
+            instagram: profile.instagram,
+            tiktok: profile.tiktok, // Ambil dari database
+            twitter: profile.twitter || "",
+          }));
+        } else {
+          console.error(
+            "Profile data not found in the response:",
+            response.data
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching the profile:");
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   return (
     <div>
@@ -95,74 +146,108 @@ const EditProfile: React.FC<Props> = ({ onClose }) => {
         </h3>
       </button>
 
-      {/* Modal utama */}
       {isModalOpen && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-gray-900 w-1/2 h-4/5 p-5 rounded-lg shadow-md text-white">
-            <img
-              src="/Icons/cross.png"
-              alt="Close"
-              className="relative w-10 h-10 cursor-pointer bottom-2 ml-80 left-96 "
-              onClick={handleCloseModal}
-            />
-
-            <h2 className="font-bold text-2xl relative bottom-10 left-72">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 transition-opacity duration-300">
+          <div className="bg-gradient-to-b from-gray-800 to-gray-900 w-1/2 h-4/5 p-8 rounded-xl shadow-lg text-white relative transform transition-transform duration-300 ease-out">
+            <div className="absolute top-0 right-0 m-4">
+              <img
+                src="/Icons/cross.png"
+                alt="Close"
+                className="w-8 h-8 cursor-pointer"
+                onClick={handleCloseModal}
+              />
+            </div>
+            <h2 className="text-3xl font-semibold text-center mb-8">
               Edit Profile
             </h2>
+            <form>
+              <div className="mb-6">
+                <label htmlFor="avatar" className="block text-lg font-medium">
+                  Upload Avatar:
+                </label>
+                <input
+                  type="file"
+                  name="avatar"
+                  value={formData.avatar}
+                  onChange={handleChange}
+                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition duration-200"
+                />
+              </div>
+              <div className="mb-6">
+                <label htmlFor="banner" className="block text-lg font-medium">
+                  Upload Banner:
+                </label>
+                <input
+                  type="file"
+                  name="banner"
+                  value={formData.banner}
+                  onChange={handleChange}
+                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition duration-200"
+                />
+              </div>
 
-            <form
-              className="flex flex-col relative bottom-16"
-              onSubmit={handleSubmit}
-            >
-              <div>
-                <h2 className="relative mt-5">Name:</h2>
+              <div className="mb-6">
+                <label htmlFor="name" className="block text-lg font-medium">
+                  Name :
+                </label>
                 <input
                   type="text"
-                  value={name}
-                  onChange={handleNameChange}
-                  className="p-3 border border-gray-300 rounded-lg text-lg w-11/12 bg-gray-700"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition duration-200"
                 />
               </div>
-              <div>
-                <h2 className="relative mt-5">Username:</h2>
+              <div className="mb-6">
+                <label htmlFor="username" className="block text-lg font-medium">
+                  Username :
+                </label>
                 <input
                   type="text"
-                  value={username}
-                  onChange={handleUsernameChange}
-                  className="p-3 border border-gray-300 rounded-lg text-lg w-11/12 bg-gray-700"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition duration-200"
                 />
               </div>
-              <div>
-                <h2 className="relative mt-5">Bio:</h2>
+              <div className="mb-6">
+                <label htmlFor="bio" className="block text-lg font-medium">
+                  Bio:
+                </label>
                 <textarea
-                  value={bio}
-                  onChange={handleBioChange}
-                  className={`${"p-3 border border-gray-300 rounded-lg text-lg w-11/12 bg-gray-700"} ${"resize-none"}`}
+                  name="bio"
+                  value={formData.bio}
+                  onChange={handleChange}
+                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition duration-200 resize-none"
                 />
               </div>
+              {/* <div className="mb-6">
+                <CountryProfile setCountry={setCountry} />
+              </div> */}
 
-              {/* Tombol Social Media */}
-              <div className="mt-5">
+              <div className="mb-6">
                 <button
-                  className="relative left-3 bg-gray-800 text-white py-3 rounded-md cursor-pointer ease-in-out w-11/12 mt-2"
+                  type="button"
+                  className="w-full py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg hover:from-blue-600 hover:to-blue-800 transition duration-200"
                   onClick={handleSocialMediaClick}
                 >
                   Add Your Social Media
                 </button>
               </div>
 
-              <div className="sticky bottom-0 flex justify-end mr-4">
+              <div className="flex justify-between">
                 <button
-                  type="submit"
-                  className="mt-5 p-2 bg-blue-600 text-white rounded-md text-lg transition duration-300 ease-in-out w-1/6 cursor-pointer hover:bg-blue-700 mr-5"
+                  type="button"
+                  className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-200"
+                  onClick={handleCloseModal}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="mt-5 p-2 bg-blue-600 text-white rounded-md text-lg transition duration-300 ease-in-out w-1/6 cursor-pointer hover:bg-blue-700 mr-5"
+                  className="px-4 py-2 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-lg hover:from-green-600 hover:to-green-800 transition duration-200"
                 >
-                  Simpan
+                  Save
                 </button>
               </div>
             </form>
@@ -170,39 +255,35 @@ const EditProfile: React.FC<Props> = ({ onClose }) => {
         </div>
       )}
 
-      {/* Modal untuk Social Media */}
-      {showSocialMediaModal && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-gray-900 w-1/2 h-4/5 p-5 rounded-lg shadow-md text-white overflow-y-auto">
-            {/* Konten modal */}
-            <div>
-              <div className="sticky top-0 h-10 z-50">
-                <h2 className="ml-72 text-3xl font-bold relative bottom-5">
-                  Social Media
-                </h2>
-                <img
-                  src="/Icons/left.svg"
-                  alt="Close"
-                  className="absolute h-10 w-10 -left-1 bottom-6 text-white cursor-pointer"
-                  onClick={handleBackToEditProfile}
-                />
-                <img
-                  src="/Icons/cross.png"
-                  alt="Close"
-                  className="absolute h-10 w-10 -right-1 bottom-8 text-white cursor-pointer"
-                  onClick={handleCloseModal1}
-                />
-              </div>
-              <h2 className="mb-10 mt-5 relative">
-                Add your link social media accounts :
-              </h2>
-              {/* Input forms untuk social media */}
+      {/* {showSocialMediaModal && (
+        <div className="fixed inset-0 flex justify-center items-center z-50 transition-opacity duration-300">
+          <div className="bg-gradient-to-b from-gray-800 to-gray-900 w-1/2 h-4/5 p-8 rounded-xl shadow-lg text-white overflow-y-auto relative transform transition-transform duration-300 ease-out">
+            <div className="absolute top-0 left-0 m-4">
+              <img
+                src="/Icons/left.svg"
+                alt="Back"
+                className="w-8 h-8 cursor-pointer"
+                onClick={handleBackToEditProfile}
+              />
+            </div>
+            <div className="absolute top-0 right-0 m-4">
+              <img
+                src="/Icons/cross.png"
+                alt="Close"
+                className="w-8 h-8 cursor-pointer"
+                onClick={handleCloseModal1}
+              />
+            </div>
+            <h2 className="text-3xl font-semibold text-center mb-8">
+              Social Media
+            </h2>
 
+            <form onSubmit={handleSubmit}>
               <h2 className="relative mt-5">Facebook</h2>
               <div className="-mt-10">
                 <div className="bg-gray-800 relative rounded-l-md top-12 w-10 h-10 flex items-center justify-center mr-4 py-2 px-2">
                   <img
-                    src="/facebook1.png" // Ganti dengan path ke ikon Facebook
+                    src="/facebook1.png"
                     alt="Facebook Icon"
                     className="w-4/5 h-auto"
                   />
@@ -211,15 +292,14 @@ const EditProfile: React.FC<Props> = ({ onClose }) => {
                   type="text"
                   value={Facebook}
                   onChange={handleFacebookChange}
-                  className="text-white relative bottom-2 py-4 h-6 rounded-tr-lg rounded-br-lg border-none text-lg bg-gray-800 w-11/12 ml-14 text-white"
+                  className="text-white relative bottom-2 py-4 h-6 rounded-tr-lg rounded-br-lg border-none text-lg bg-gray-800 w-11/12 ml-14"
                 />
               </div>
-
               <h2 className="relative mt-5">Twitter</h2>
               <div className="-mt-10">
                 <div className="bg-gray-800 relative rounded-l-md top-12 w-10 h-10 flex items-center justify-center mr-4 py-2 px-2">
                   <img
-                    src="/twitter-x1.png" // Ganti dengan path ke ikon Facebook
+                    src="/twitter-x1.png"
                     alt="Twitter Icon"
                     className="w-4/5 h-auto"
                   />
@@ -228,7 +308,7 @@ const EditProfile: React.FC<Props> = ({ onClose }) => {
                   type="text"
                   value={Twitter}
                   onChange={handleTwitterChange}
-                  className="text-white relative bottom-2 py-4 h-6 rounded-tr-lg rounded-br-lg border-none text-lg bg-gray-800 w-11/12 ml-14 text-white"
+                  className="text-white relative bottom-2 py-4 h-6 rounded-tr-lg rounded-br-lg border-none text-lg bg-gray-800 w-11/12 ml-14"
                 />
               </div>
 
@@ -236,7 +316,7 @@ const EditProfile: React.FC<Props> = ({ onClose }) => {
               <div className="-mt-10">
                 <div className="bg-gray-800 relative rounded-l-md top-12 w-10 h-10 flex items-center justify-center mr-4 py-2 px-2">
                   <img
-                    src="/instagram1.png" // Ganti dengan path ke ikon Facebook
+                    src="/instagram1.png"
                     alt="Instagram Icon"
                     className="w-4/5 h-auto"
                   />
@@ -245,7 +325,7 @@ const EditProfile: React.FC<Props> = ({ onClose }) => {
                   type="text"
                   value={Instagram}
                   onChange={handleInstagramChange}
-                  className="text-white relative bottom-2 py-4 h-6 rounded-tr-lg rounded-br-lg border-none text-lg bg-gray-800 w-11/12 ml-14 text-white"
+                  className="text-white relative bottom-2 py-4 h-6 rounded-tr-lg rounded-br-lg border-none text-lg bg-gray-800 w-11/12 ml-14"
                 />
               </div>
 
@@ -253,7 +333,7 @@ const EditProfile: React.FC<Props> = ({ onClose }) => {
               <div className="-mt-10">
                 <div className="bg-gray-800 relative rounded-l-md top-12 w-10 h-10 flex items-center justify-center mr-4 py-2 px-2">
                   <img
-                    src="/pinterest1.png" // Ganti dengan path ke ikon Facebook
+                    src="/pinterest1.png"
                     alt="Pinterest Icon"
                     className="w-4/5 h-auto"
                   />
@@ -262,14 +342,14 @@ const EditProfile: React.FC<Props> = ({ onClose }) => {
                   type="text"
                   value={Pinterest}
                   onChange={handlePinterestChange}
-                  className="text-white relative bottom-2 py-4 h-6 rounded-tr-lg rounded-br-lg border-none text-lg bg-gray-800 w-11/12 ml-14 text-white"
+                  className="text-white relative bottom-2 py-4 h-6 rounded-tr-lg rounded-br-lg border-none text-lg bg-gray-800 w-11/12 ml-14"
                 />
               </div>
               <h2 className="relative mt-5">Tiktok</h2>
               <div className="-mt-10">
                 <div className="bg-gray-800 relative rounded-l-md top-12 w-10 h-10 flex items-center justify-center mr-4 py-2 px-2">
                   <img
-                    src="/tiktok1.png" // Ganti dengan path ke ikon Facebook
+                    src="/tiktok1.png"
                     alt="Tiktok Icon"
                     className="w-4/5 h-auto"
                   />
@@ -281,25 +361,26 @@ const EditProfile: React.FC<Props> = ({ onClose }) => {
                   className="text-white relative bottom-2 py-4 h-6 rounded-tr-lg rounded-br-lg border-none text-lg bg-gray-800 w-11/12 ml-14"
                 />
               </div>
-              {/* Tombol Kembali dan Simpan */}
-              <div className="sticky bottom-0 flex justify-end ml-20">
+
+              <div className="flex justify-between mt-6">
                 <button
-                  type="submit"
-                  className="mt-5 p-2 bg-blue-600 text-white rounded-md text-lg transition duration-300 ease-in-out w-1/6 cursor-pointer hover:bg-blue-700 mr-5"
+                  type="button"
+                  className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-200"
+                  onClick={handleCloseModal1}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="mt-5 p-2 bg-blue-600 text-white rounded-md text-lg transition duration-300 ease-in-out w-1/6 cursor-pointer hover:bg-blue-700 mr-5"
+                  className="px-4 py-2 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-lg hover:from-green-600 hover:to-green-800 transition duration-200"
                 >
-                  Simpan
+                  Save
                 </button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

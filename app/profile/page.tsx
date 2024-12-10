@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NextPage } from "next";
 import styles from "./profile.module.css";
 import YourPostModal from "../components/YourPostModal";
@@ -8,10 +8,17 @@ import EditProfile from "../components/EditProfileModal";
 import Gallery from "../components/profile/Gallery";
 import Posts from "../components/profile/Posts";
 import LikesAndSaved from "../components/profile/LikesAndSaved";
+import { useAuth } from "../Context/AuthContext";
+
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 const Profile: NextPage = () => {
+  const { loading, isUserLoggedIn } = useAuth(); // Mengambil status login dari useAuth
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Gallery");
+  const [fetchedData, setFetchedData] = useState(null); // State untuk menyimpan data yang di-fetch
 
   const handlePostContentClick = () => {
     setIsModalOpen(true);
@@ -24,6 +31,28 @@ const Profile: NextPage = () => {
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://api.artwishcreation.com/api/profile/me",
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        console.log("Fetched data:", response.data); // Logs the fetched data to the console
+        setFetchedData(response.data); // Store the data in state if necessary
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="max-w-full relative bg-gray-900 text-white font-inter text-base h-[2000px]">
@@ -186,6 +215,18 @@ const Profile: NextPage = () => {
               </div>
             </button>
           </div>
+        </div>
+
+        <div className="flex flex-col items-center mt-5">
+          {fetchedData ? (
+            <div className="bg-white p-4 rounded-md w-full">
+              <h3>Fetched Data:</h3>
+              <pre>{JSON.stringify(fetchedData, null, 2)}</pre>
+              {/* Customize how you display the fetched data here */}
+            </div>
+          ) : (
+            <p>No data fetched.</p>
+          )}
         </div>
 
         {/* <div className={styles.TabandTagContainer}>

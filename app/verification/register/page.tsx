@@ -1,6 +1,33 @@
 "use client";
 import React from "react";
 
+const handleResendVerificationEmail = async () => {
+  try {
+    const response = await fetch(
+      "https://api.artwishcreation.com/auth/resend?email=@gmail.com",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to resend verification email");
+    }
+
+    const data = await response.json();
+    console.log("Resend Email Success:", data);
+    alert("Verification email resent successfully!");
+  } catch (error) {
+    console.error("Error:", error);
+    alert(
+      "An error occurred while resending the email, please try again later."
+    );
+  }
+};
+
 const SendVerificationRegister: React.FC = () => {
   return (
     <div
@@ -35,6 +62,14 @@ const SendVerificationRegister: React.FC = () => {
               className="bg-[#0dff99] text-xl text-white px-10 py-5 rounded-md shadow hover:bg-green-500 transition duration-300 ease-in-out cursor-pointer"
             >
               Check Your Email
+            </button>
+          </div>
+          <div className="mt-4 flex justify-center">
+            <button
+              onClick={handleResendVerificationEmail}
+              className="bg-blue-500 text-xl text-white px-10 py-5 rounded-md shadow hover:bg-blue-400 transition duration-300 ease-in-out cursor-pointer"
+            >
+              Resend Verification Email
             </button>
           </div>
         </div>

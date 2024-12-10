@@ -59,26 +59,23 @@ const ProfileButton: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    // Fetch data when component mounts
+    fetchData();
+  }, []);
+
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        "https://api.artwishcreation.com/api/auth/profile",
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        "https://api.artwishcreation.com/api/auth/profile/",
+        { withCredentials: true } // Send cookies with request
       );
-
-      setFetchedData(response.data);
+      console.log(response.data);
+      // You can set the fetched data to state here if needed
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching data with credentials:", error);
     }
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   return (
     <div className="relative">

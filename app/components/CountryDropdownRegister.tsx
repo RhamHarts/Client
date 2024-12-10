@@ -1,15 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
-import CountrySelector from "../components/countryIcons/selector";
-import { COUNTRIES } from "../components/countryIcons/country";
-import { SelectMenuOption } from "../components/countryIcons/types";
+import CountrySelector from "./countryIconsRegister/selector";
+import { COUNTRIES } from "./countryIconsRegister/country";
+import { SelectMenuOption } from "./countryIconsRegister/types";
 
-interface CountryDropdownProps {
+interface CountryDropdownRegisterProps {
   setCountry: (country: string) => void;
 }
 
-const CountryDropdown: React.FC<CountryDropdownProps> = ({ setCountry }) => {
+const CountryDropdownRegister: React.FC<CountryDropdownRegisterProps> = ({
+  setCountry,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [country, setLocalCountry] = useState("AF");
 
@@ -31,4 +33,4 @@ const CountryDropdown: React.FC<CountryDropdownProps> = ({ setCountry }) => {
   );
 };
 
-export default CountryDropdown;
+export default CountryDropdownRegister;

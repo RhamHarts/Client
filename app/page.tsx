@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
 import { useAuth } from "./Context/AuthContext";
 import LoginModal from "./components/LoginModal";
@@ -43,12 +42,11 @@ const Homepage: React.FC = () => {
     setVisiblePopularImages(urls);
   };
 
-  // Fetch data menggunakan Axios
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://api.artwishcreation.com/api/auth/profile", // Ganti dengan endpoint API Anda
+          "https://api.artwishcreation.com/api/profile/me",
           {
             headers: {
               "Content-Type": "application/json",
@@ -56,14 +54,15 @@ const Homepage: React.FC = () => {
           }
         );
 
-        setFetchedData(response.data); // Simpan data ke state jika diperlukan
+        console.log("Fetched data:", response.data); // Logs the fetched data to the console
+        setFetchedData(response.data); // Store the data in state if necessary
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, []); // Panggilan hanya dilakukan sekali saat komponen dimount
+  }, []);
 
   return (
     <div className="flex flex-col bg-gray-500 p-4">
@@ -103,6 +102,7 @@ const Homepage: React.FC = () => {
                 </svg>
               </div>
             </div>
+
             <div className="flex gap-4 m-5 w-full">
               {[...Array(15)].map((_, index) => (
                 <button
