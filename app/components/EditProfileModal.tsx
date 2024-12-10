@@ -93,28 +93,22 @@ const EditProfile: React.FC<Props> = ({ onClose }) => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const storedToken = localStorage.getItem("token");
-
-      if (!storedToken) {
-        console.error("No token found. Please log in.");
-        return;
-      }
-
       try {
         const response = await axios.get(
           "https://api.artwishcreation.com/api/profile/me",
           { withCredentials: true }
         );
+        console.info("ini buktinya",response)
 
-        if (response.data && response.data.profile) {
-          const profile = response.data.profile;
+        if (response.data && response.data.data) {
+          const profile = response.data.data;
 
           setProfileData(profile);
           setFormData((prevFormData) => ({
             ...prevFormData,
             username: profile.username,
             email: profile.email,
-            imageProfile: profile.imageProfile, // Ambil dari database
+            imageProfile: profile.avatar, // Ambil dari database
             aboutMe: profile.aboutMe || "",
             facebook: profile.facebook,
             instagram: profile.instagram,
