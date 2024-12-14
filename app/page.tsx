@@ -5,6 +5,7 @@ import LoginModal from "./components/LoginModal";
 import ProfileButton from "./components/ProfileButtonModal";
 import SeeAllImagesModal from "./components/SeeAllImagesModal";
 import axios from "axios";
+import Navbar from "./components/Navbar";
 
 // Mengaktifkan pengiriman kredensial (cookies) di semua permintaan
 axios.defaults.withCredentials = true;
@@ -30,7 +31,7 @@ const Homepage: React.FC = () => {
   }
 
   const allImages: Image[] = [];
-  for (let i = 1; i <= 100; i++) {
+  for (let i = 1; i <= 10; i++) {
     const imageUrl = `https://source.unsplash.com/random/${i}`; // URL gambar dummy dari Unsplash
     allImages.push({ id: i, url: imageUrl });
   }
@@ -70,14 +71,8 @@ const Homepage: React.FC = () => {
         <p>Loading...</p>
       ) : (
         <>
-          <div className="flex flex-row justify-between">
-            <div className="text-base relative">
-              <h1>COMISSAPP</h1>
-            </div>
-            <div className="flex gap-5">
-              <LoginModal />
-              <ProfileButton />
-            </div>
+          <div className="mb-20">
+            <Navbar showSearchBar={false} />
           </div>
           <div className="flex flex-col items-center">
             <div className="items-center justify-between w-full flex flex-row rounded-full p-2 sticky">
