@@ -31,7 +31,7 @@ const Register: React.FC = () => {
         {
           method: "POST",
           headers: {
-            "Access-Control-Allow-Origin": "*", // This header is usually set server-side, not client-side
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             username,
@@ -62,7 +62,6 @@ const Register: React.FC = () => {
       console.error("Error:", error);
     }
   };
-
   return (
     <div className="h-screen bg-fdf9ff overflow-hidden text-left text-xs text-white font-poppins flex justify-center items-center">
       <div className="grid sm:grid-cols-2 relative lg:inset-x-40">

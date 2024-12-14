@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
-import axios from "axios";
 import { COUNTRIES } from "./country";
 import { SelectMenuOption } from "./types";
 import { AnimatePresence, motion } from "framer-motion";
+import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 
 export interface CountrySelectorProps {
   id: string;
@@ -10,6 +9,7 @@ export interface CountrySelectorProps {
   disabled?: boolean;
   onToggle: () => void;
   onChange: (value: SelectMenuOption["value"]) => void;
+  selectedValue: SelectMenuOption;
 }
 
 export default function CountrySelector({
@@ -18,52 +18,20 @@ export default function CountrySelector({
   disabled = false,
   onToggle,
   onChange,
+  selectedValue,
 }: CountrySelectorProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState(""); // Ensure query state is initialized
-  const [selectedValue, setSelectedValue] = useState<SelectMenuOption | null>(
-    null
-  );
 
   useEffect(() => {
-    // Fetch the initial country data on load
-    const fetchCountryData = async () => {
-      try {
-        const response = await axios.get(
-          "https://api.artwishcreation.com/api/profile/me",
-          { withCredentials: true }
-        );
+    const mutableRef = ref as MutableRefObject<HTMLDivElement | null>;
 
-        console.info("Fetched profile data:", response.data); // Debugging log
-
-        if (response.data && response.data.data) {
-          const profileCountryCode = response.data.data.country || "AF"; // Assume "AF" as default if missing
-          const countryData = COUNTRIES.find(
-            (country) => country.value === profileCountryCode
-          );
-
-          if (countryData) {
-            setSelectedValue(countryData);
-            console.info("Set selectedValue to:", countryData); // Debugging log
-          } else {
-            console.warn(
-              "Country code from API does not match COUNTRIES data:",
-              profileCountryCode
-            );
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching profile data:", error);
-      }
-    };
-
-    fetchCountryData();
-  }, []);
-
-  useEffect(() => {
-    // Clicking outside closes the dropdown
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node) && open) {
+    const handleClickOutside = (event: any) => {
+      if (
+        mutableRef.current &&
+        !mutableRef.current.contains(event.target) &&
+        open
+      ) {
         onToggle();
         setQuery("");
       }
@@ -73,10 +41,11 @@ export default function CountrySelector({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [open, onToggle]);
+  }, [ref, open, onToggle]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
+    console.log("Current query:", e.target.value); // Debug line
   };
 
   return (
@@ -89,18 +58,12 @@ export default function CountrySelector({
           disabled={disabled}
         >
           <span className="flex items-center">
-            {selectedValue ? (
-              <>
-                <img
-                  alt={selectedValue.value}
-                  src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${selectedValue.value}.svg`}
-                  className="inline mr-2 h-6"
-                />
-                {selectedValue.title}
-              </>
-            ) : (
-              <span>No country selected</span>
-            )}
+            <img
+              alt={`${selectedValue.value}`}
+              src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${selectedValue.value}.svg`}
+              className={"inline mr-2 h-6"}
+            />
+            {selectedValue.title}
           </span>
         </button>
 
@@ -141,27 +104,43 @@ export default function CountrySelector({
                 ) : (
                   COUNTRIES.filter((country) =>
                     country.title.toLowerCase().includes(query.toLowerCase())
-                  ).map((value) => {
+                  ).map((value, index) => {
                     return (
                       <li
-                        key={`${id}-${value.value}`}
+                        key={`${id}-${index}`}
                         className="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 flex items-center hover:bg-blue-50 transition"
                         role="option"
                         onClick={() => {
                           onChange(value.value);
-                          setSelectedValue(value); // Update the selectedValue
                           setQuery("");
                           onToggle();
                         }}
                       >
                         <img
-                          alt={value.title}
+                          alt={`${value.value}`}
                           src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${value.value}.svg`}
                           className="inline mr-2 h-6"
                         />
                         <span className="font-normal truncate">
                           {value.title}
                         </span>
+                        {value.value === selectedValue.value ? (
+                          <span className="text-blue-600 absolute inset-y-0 right-0 flex items-center pr-8">
+                            <svg
+                              className="h-5 w-5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              aria-hidden="true"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </span>
+                        ) : null}
                       </li>
                     );
                   })
